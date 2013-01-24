@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://freshcodes.github.com/sitemap.xml 

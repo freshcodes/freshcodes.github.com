@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[freshcodes]]></title>
+  <link href="http://freshcodes.github.com/atom.xml" rel="self"/>
+  <link href="http://freshcodes.github.com/"/>
+  <updated>2013-01-24T00:38:32-06:00</updated>
+  <id>http://freshcodes.github.com/</id>
+  <author>
+    <name><![CDATA[freshcodes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+</feed>
