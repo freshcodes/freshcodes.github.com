@@ -19,6 +19,7 @@
       p { margin: 1.25em 0; line-height: 1.5em; }
       footer { position: absolute; left: 0; width: 100%; bottom: 0; height: 40px; text-align: center; }
       footer p { margin: 0; font-size: 0.75em; color: #999; }
+      canvas { position: fixed; bottom: 0; left: 0; z-index: -1; display: block; }
       @media only screen and (max-height: 780px) {
         body { margin-top: 5%; }
       }
@@ -57,5 +58,167 @@
     <footer>
       <p>Copyright &copy; 2016 Fresh Codes LLC</p>
     </footer>
+    <script>
+      'use strict';
+      var requestAnimFrame = (function(){
+        return  requestAnimationFrame       ||
+                webkitRequestAnimationFrame ||
+                mozRequestAnimationFrame    ||
+                function( callback ){
+                  setTimeout(callback, 1000 / 60)
+                }
+      })()
+      function Background() {
+        this.canvas = document.createElement('canvas')
+        this.context = this.canvas.getContext && this.canvas.getContext('2d')
+        if (!this.context) return
+        document.body.appendChild(this.canvas)
+        addEventListener('resize', this.handleResize.bind(this), false)
+      }
+      Background.prototype = {
+        configure: function() {
+          this.height = window.innerHeight / 2
+          this.width = window.innerWidth
+          this.numCircles = Math.floor(this.width / 50)
+          this.iterations = 11
+        },
+        setCanvasSize: function() {
+          this.canvas.width = this.width
+          this.canvas.height = this.height
+        },
+        reset: function() {
+          this.drawCount = 0
+          this.lineNumber = 0
+          this.configure()
+          this.setCanvasSize()
+          this.context.setTransform(1,0,0,1,0,0)
+          this.context.clearRect(0, 0, this.width, this.height)
+          this.buildCircles()
+          this.drawTick()
+        },
+        drawTick: function() {
+          var strokeStyle = 'rgba(230,230,230,0.05)',
+              lineWidth = 2,
+              drawsPerFrame = 1,
+              stepsPerSegment = Math.floor(500 / this.numCircles),
+              xSqueeze = 0.75,
+              numPoints = Math.pow(2, this.iterations) + 1,
+              fullTurn = Math.PI * 2 * numPoints / (1 + numPoints),
+              theta, centerX, centerY, rad, phase, x0, y0, rad0, rad1, phase0, phase1, linParam, cosParam
+          for (var k = 0; k < drawsPerFrame; k++) {
+            theta = -this.lineNumber / (numPoints - 1) * fullTurn
+            this.context.lineJoin = 'miter'
+            this.context.strokeStyle = strokeStyle
+            this.context.lineWidth = lineWidth
+            this.context.beginPath()
+            centerX = this.circles[0].centerX
+            centerY = this.circles[0].centerY
+            rad = this.circles[0].minRad + this.circles[0].pointArray[this.lineNumber] * (this.circles[0].maxRad - this.circles[0].minRad)
+            phase = this.circles[0].phase
+            x0 = centerX + xSqueeze * rad * Math.cos(theta + phase)
+            y0 = centerY + rad * Math.sin(theta + phase)
+            this.context.moveTo(x0, y0)
+
+            for (var i = 0; i < this.numCircles - 1; i++) {
+              rad0 = this.circles[i].minRad + this.circles[i].pointArray[this.lineNumber] * (this.circles[i].maxRad - this.circles[i].minRad)
+              rad1 = this.circles[i + 1].minRad + this.circles[i + 1].pointArray[this.lineNumber] * (this.circles[i+1].maxRad - this.circles[i+1].minRad)
+              phase0 = this.circles[i].phase
+              phase1 = this.circles[i + 1].phase
+              for (var j = 0; j < stepsPerSegment; j++) {
+                linParam = j / (stepsPerSegment - 1)
+                cosParam = 0.5 - 0.5 * Math.cos(linParam * Math.PI)
+                centerX = this.circles[i].centerX + linParam * (this.circles[i + 1].centerX - this.circles[i].centerX)
+                centerY = this.circles[i].centerY + linParam * (this.circles[i + 1].centerY - this.circles[i].centerY)
+                rad = rad0 + cosParam * (rad1 - rad0)
+                phase = phase0 + cosParam * (phase1 - phase0)
+                x0 = centerX + xSqueeze * rad * Math.cos(theta + phase)
+                y0 = centerY + rad * Math.sin(theta + phase)
+                this.context.lineTo(x0, y0)
+              }
+            }
+            this.context.stroke()
+            this.lineNumber++
+            if (this.lineNumber > numPoints-1) {
+              break
+            } else {
+              requestAnimFrame(this.drawTick.bind(this))
+            }
+          }
+        },
+        handleResize: function() {
+          if (this.resizeTimeout) clearTimeout(this.resizeTimeout)
+          this.resizeTimeout = setTimeout(this.reset.bind(this), 500)
+        },
+        buildCircles: function() {
+          this.circles = []
+          var maxMaxRad = this.height * .5,
+              minMaxRad = this.height * .2,
+              minRadFactor = 0,
+              minX = -maxMaxRad,
+              maxX = this.width + maxMaxRad,
+              minY = this.height,
+              maxY = this.height,
+              twistAmount = 0.8 * Math.PI * 2
+          for (var i = 0; i < this.numCircles; i++) {
+            var maxR = minMaxRad + Math.random() * (maxMaxRad - minMaxRad);
+            var minR = minRadFactor * maxR;
+
+            var newCircle = {
+              centerX: minX + i / (this.numCircles - 1) * (maxX - minX),
+              centerY: minY + i / (this.numCircles - 1) * (maxY - minY),
+              maxRad: maxR,
+              minRad: minR,
+              phase: i / (this.numCircles - 1) * twistAmount,
+              pointArray: this.buildLinePoints()
+            }
+            this.circles.push(newCircle)
+          }
+        },
+        buildLinePoints: function() {
+          var pointList = {}
+          var pointArray = []
+          var lowestY = 1
+          var highestY = 1
+          var minRatio = 0.5
+          var point, nextPoint, newPoint, dx, newX, newY, ratio, normalizeRate
+
+          pointList.first = {x:0, y:1}
+          pointList.first.next = {x:1, y:1}
+
+          for (var i = 0; i < this.iterations; i++) {
+            point = pointList.first
+            while (point.next != null) {
+              nextPoint = point.next
+              dx = nextPoint.x - point.x
+              newX = 0.5 * (point.x + nextPoint.x)
+              newY = 0.5 * (point.y + nextPoint.y)
+              newY += dx * (Math.random() * 2 - 1)
+
+              newPoint = {x: newX, y: newY}
+
+              if (newY < lowestY)
+                lowestY = newY
+              else if (newY > highestY)
+                highestY = newY
+
+              newPoint.next = nextPoint
+              point.next = newPoint
+              point = nextPoint
+            }
+          }
+
+          normalizeRate = 1 / (highestY - lowestY)
+          point = pointList.first
+          while (point != null) {
+            point.y = normalizeRate * (point.y - lowestY)
+            pointArray.push(point.y)
+            point = point.next
+          }
+          return pointArray
+        }
+      }
+      var background = new Background()
+      background.reset()
+    </script>
   </body>
 </html>
