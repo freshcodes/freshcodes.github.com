@@ -1,235 +1,133 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Fresh Codes</title>
+    <title>Fresh Codes | A fresh perspective on software development.</title>
     <meta name="author" content="Fresh Codes LLC">
-    <meta name="description" content="A fresh perspective.">
+    <meta name="description" content="What we can build for you?">
+    <link rel="canonical" href="https://fresh.codes/">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#223870">
+    <meta name="msapplication-TileColor" content="#ff0000">
+    <meta name="theme-color" content="#ffffff">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="canonical" href="https://fresh.codes/">
-    <link href="/favicon.ico" rel="icon">
+
+    <!-- modulepreload our components -->
+    <link rel="modulepreload" href="/components/fc-fish-scene/fc-fish-scene-fish-controller.js">
+    <link rel="modulepreload" href="/components/fc-fish-scene/fc-fish-scene-controller.js">
+    <link rel="modulepreload" href="/components/fc-fish-scene/fc-fish-scene.js">
+    <link rel="modulepreload" href="/components/fc-fish/fc-fish.js">
+
+    <!-- https://github.com/WebReflection/document-register-element -->
+    <script>this.customElements||document.write('<script src="//unpkg.com/document-register-element"><\x2fscript>');</script>
+
+    <!-- Check `passive` options support for event listeners -->
+    <!-- https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md#feature-detection -->
+    <script>
+      // Test via a getter in the options object to see if the passive property is accessed
+      var supportsPassive = false
+      try {
+        var opts = Object.defineProperty({}, 'passive', {
+          get: function() {
+            supportsPassive = true
+          }
+        })
+        window.addEventListener("testPassive", null, opts)
+        window.removeEventListener("testPassive", null, opts)
+      } catch (e) {}
+    </script>
+
+    <!-- Global and General Styles -->
     <style>
-      html { position: relative; min-height: 100%; }
-      body { margin: 10% 10% 40px; height: 100%; padding: 0; font-family: Georgia, Times, 'Times New Roman', serif; font-size: 18px; }
-      h1 { margin: 0 0 0.6em 0; font-size: 4em; }
-      h2 { margin: 0.75em 0; font-size: 2.5em; }
-      article { max-width: 830px; }
-      p { margin: 1.25em 0; line-height: 1.5em; }
-      footer { position: absolute; left: 0; width: 100%; bottom: 0; height: 40px; text-align: center; }
-      footer p { margin: 0; font-size: 0.75em; color: #999; }
-      canvas { position: fixed; bottom: 0; left: 0; z-index: -1; display: block; }
-      @media only screen and (max-height: 780px) {
-        body { margin-top: 5%; }
+      *, *::before, *::after { box-sizing: inherit; }
+
+      html, body {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
-      @media only screen and (max-width: 600px) {
-        body { font-size: 16px; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        font-size: 18px;
+        line-height: 1.5em;
       }
-      @media only screen and (max-width: 525px) {
-        body { font-size: 14px; }
-        p { font-size: 16px; }
+
+      header {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        height: 72px;
+        text-align: center;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
-      @media only screen and (max-width: 450px) {
-        body { font-size: 12px; }
-        footer p { font-size: 9px; }
+      header::after {
+        content: ' ';
+        position: absolute;
+        left: -50vw;
+        bottom: 0px;
+        width: 0;
+        height: 0;
+        border-left: 100vw solid transparent;
+        border-right: 100vw solid transparent;
+        border-bottom: 100vw solid #fff;
+        border-bottom-right-radius: 100vw;
+        border-bottom-left-radius: 100vw;
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.35);
+        z-index: 1;
       }
-      @media only screen and (max-width: 385px) {
-        body { font-size: 10px; }
+      header img {
+        position: relative;
+        z-index: 2;
+        height: 55px;
+        top: -5px;
       }
-      @media only screen and (max-width: 319px) {
-        body { font-size: 9px; }
+      @media only screen and (min-width: 600px) {
+        header img {
+          height: 60px;
+          top: -2px;
+        }
+      }
+
+      section {
+        padding: 2rem;
+        max-width: 1000px;
+        margin: 0 auto;
       }
     </style>
+
+    <!-- import our components -->
+    <style>
+      @import '/components/fc-fish/fc-fish.css';
+      @import '/components/fc-fish-scene/fc-fish-scene.css';
+    </style>
+    <script type="module">
+      import { FCFish } from '/components/fc-fish/fc-fish.js'
+      import { FCFishScene } from '/components/fc-fish-scene/fc-fish-scene.js'
+    </script>
   </head>
   <body>
     <header>
-      <h1>Fresh Codes</h1>
-      <h2>A fresh perspective.</h2>
+      <img src="fresh-codes.svg" alt="Fresh Codes">
     </header>
-    <article>
-      <p>We partner with you to build the web-focused product you need. We deliver quality code that brings your ideas to market.</p>
-      <p>We can work with your current technology stack or provide the perfect stack for you. Front to back, we’ve got technology covered.</p>
-      <p>We can integrate seemlessly with your current team or we’ll be your dream team. We can be entirely behind the scenes or be extras on your stage providing technology insights to your clients.</p>
-      <p>We’d love to hear about your ideas from micro-sites to multi-national deployments; we’ve done it before and can do it for you too.</p>
-      <p>Let’s exchange ideas to see if we are a good fit for each other.</p>
-      <p>Say <a href="mailto:&#104;&#101;&#108;&#108;&#111;&#064;&#102;&#114;&#101;&#115;&#104;&#046;&#099;&#111;&#100;&#101;&#115;">&#104;&#101;&#108;&#108;&#111;&#064;&#102;&#114;&#101;&#115;&#104;&#046;&#099;&#111;&#100;&#101;&#115;</a></p>
-    </article>
-    <footer>
-      <p>Copyright &copy; 2018 Fresh Codes LLC</p>
-    </footer>
+    <fc-fish-scene></fc-fish-scene>
+    <main>
+      <section>
+        <p>We are a small software development team providing years of industry knowledge and experience to assist in bringing your ideas to life with focus on performance, accessibility, and maintainability.</p>
+        <p>Our clients tend to be agencies and startups.  Together we have built amazing and unique experiences for various brands, large and small.</p>
+        <p>What we can build for you?  Get in touch with us: <a href="mailto:hello@fresh.codes">hello@fresh.codes</a>.</p>
+      </section>
+    </main>
     <script>
-      'use strict';
-      var requestAnimFrame = (function(){
-        return  requestAnimationFrame       ||
-                webkitRequestAnimationFrame ||
-                mozRequestAnimationFrame    ||
-                function( callback ){
-                  setTimeout(callback, 1000 / 60)
-                }
-      })()
-      function Background() {
-        this.canvas = document.createElement('canvas')
-        this.context = this.canvas.getContext && this.canvas.getContext('2d')
-        if (!this.context) return
-        document.body.appendChild(this.canvas)
-        addEventListener('resize', this.handleResize.bind(this), false)
-      }
-      Background.prototype = {
-        configure: function() {
-          this.height = window.innerHeight / 2
-          this.width = window.innerWidth
-          this.numCircles = Math.floor(this.width / 50)
-          this.iterations = 11
-        },
-        setCanvasSize: function() {
-          this.canvas.width = this.width
-          this.canvas.height = this.height
-        },
-        reset: function() {
-          this.drawCount = 0
-          this.lineNumber = 0
-          this.configure()
-          this.setCanvasSize()
-          this.context.setTransform(1,0,0,1,0,0)
-          this.context.clearRect(0, 0, this.width, this.height)
-          this.buildCircles()
-          this.drawTick()
-        },
-        drawTick: function() {
-          var strokeStyle = 'rgba(230,230,230,0.05)',
-              lineWidth = 2,
-              drawsPerFrame = 1,
-              stepsPerSegment = Math.floor(500 / this.numCircles),
-              xSqueeze = 0.75,
-              numPoints = Math.pow(2, this.iterations) + 1,
-              fullTurn = Math.PI * 2 * numPoints / (1 + numPoints),
-              theta, centerX, centerY, rad, phase, x0, y0, rad0, rad1, phase0, phase1, linParam, cosParam
-          for (var k = 0; k < drawsPerFrame; k++) {
-            theta = -this.lineNumber / (numPoints - 1) * fullTurn
-            this.context.lineJoin = 'miter'
-            this.context.strokeStyle = strokeStyle
-            this.context.lineWidth = lineWidth
-            this.context.beginPath()
-            centerX = this.circles[0].centerX
-            centerY = this.circles[0].centerY
-            rad = this.circles[0].minRad + this.circles[0].pointArray[this.lineNumber] * (this.circles[0].maxRad - this.circles[0].minRad)
-            phase = this.circles[0].phase
-            x0 = centerX + xSqueeze * rad * Math.cos(theta + phase)
-            y0 = centerY + rad * Math.sin(theta + phase)
-            this.context.moveTo(x0, y0)
-
-            for (var i = 0; i < this.numCircles - 1; i++) {
-              rad0 = this.circles[i].minRad + this.circles[i].pointArray[this.lineNumber] * (this.circles[i].maxRad - this.circles[i].minRad)
-              rad1 = this.circles[i + 1].minRad + this.circles[i + 1].pointArray[this.lineNumber] * (this.circles[i+1].maxRad - this.circles[i+1].minRad)
-              phase0 = this.circles[i].phase
-              phase1 = this.circles[i + 1].phase
-              for (var j = 0; j < stepsPerSegment; j++) {
-                linParam = j / (stepsPerSegment - 1)
-                cosParam = 0.5 - 0.5 * Math.cos(linParam * Math.PI)
-                centerX = this.circles[i].centerX + linParam * (this.circles[i + 1].centerX - this.circles[i].centerX)
-                centerY = this.circles[i].centerY + linParam * (this.circles[i + 1].centerY - this.circles[i].centerY)
-                rad = rad0 + cosParam * (rad1 - rad0)
-                phase = phase0 + cosParam * (phase1 - phase0)
-                x0 = centerX + xSqueeze * rad * Math.cos(theta + phase)
-                y0 = centerY + rad * Math.sin(theta + phase)
-                this.context.lineTo(x0, y0)
-              }
-            }
-            this.context.stroke()
-            this.lineNumber++
-            if (this.lineNumber > numPoints-1) {
-              break
-            } else {
-              requestAnimFrame(this.drawTick.bind(this))
-            }
-          }
-        },
-        handleResize: function() {
-          if (this.resizeTimeout) clearTimeout(this.resizeTimeout)
-          this.resizeTimeout = setTimeout(this.reset.bind(this), 500)
-        },
-        buildCircles: function() {
-          this.circles = []
-          var maxMaxRad = this.height * .5,
-              minMaxRad = this.height * .2,
-              minRadFactor = 0,
-              minX = -maxMaxRad,
-              maxX = this.width + maxMaxRad,
-              minY = this.height,
-              maxY = this.height,
-              twistAmount = 0.8 * Math.PI * 2
-          for (var i = 0; i < this.numCircles; i++) {
-            var maxR = minMaxRad + Math.random() * (maxMaxRad - minMaxRad);
-            var minR = minRadFactor * maxR;
-
-            var newCircle = {
-              centerX: minX + i / (this.numCircles - 1) * (maxX - minX),
-              centerY: minY + i / (this.numCircles - 1) * (maxY - minY),
-              maxRad: maxR,
-              minRad: minR,
-              phase: i / (this.numCircles - 1) * twistAmount,
-              pointArray: this.buildLinePoints()
-            }
-            this.circles.push(newCircle)
-          }
-        },
-        buildLinePoints: function() {
-          var pointList = {}
-          var pointArray = []
-          var lowestY = 1
-          var highestY = 1
-          var minRatio = 0.5
-          var point, nextPoint, newPoint, dx, newX, newY, ratio, normalizeRate
-
-          pointList.first = {x:0, y:1}
-          pointList.first.next = {x:1, y:1}
-
-          for (var i = 0; i < this.iterations; i++) {
-            point = pointList.first
-            while (point.next != null) {
-              nextPoint = point.next
-              dx = nextPoint.x - point.x
-              newX = 0.5 * (point.x + nextPoint.x)
-              newY = 0.5 * (point.y + nextPoint.y)
-              newY += dx * (Math.random() * 2 - 1)
-
-              newPoint = {x: newX, y: newY}
-
-              if (newY < lowestY)
-                lowestY = newY
-              else if (newY > highestY)
-                highestY = newY
-
-              newPoint.next = nextPoint
-              point.next = newPoint
-              point = nextPoint
-            }
-          }
-
-          normalizeRate = 1 / (highestY - lowestY)
-          point = pointList.first
-          while (point != null) {
-            point.y = normalizeRate * (point.y - lowestY)
-            pointArray.push(point.y)
-            point = point.next
-          }
-          return pointArray
-        }
-      }
-      var background = new Background()
-      background.reset()
+      if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js')
     </script>
-    <!-- Google Analytics -->
-    <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-69614204-2', 'auto');
-    ga('send', 'pageview');
-    </script>
-    <!-- End Google Analytics -->
   </body>
 </html>
