@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 55 50">
+  <path class="fish-column-3 fin-top" fill="#f5f5f6" d="M 34.5 5 l -10 10 l -10 -10 c 10 -10 20 0 20 0" />
+  <path class="fish-column-2 scale-12-o-clock" fill="#dadbdd" d="M 34.5 5 l 10 10 l -10 10 l -10 -10 l 10 -10" />
+  <path class="fish-column-1 scale-3-o-clock" fill="#b9babd" d="M 44.5 15 l 10 10 l -10 10 l -10 -10 l 10 -10" />
+  <path class="fish-column-2 scale-6-o-clock" fill="#cdced0" d="M 34.5 25 l 10 10 l -10 10 l -10 -10 l 10 -10" />
+  <path class="fish-column-3 scale-9-o-clock" fill="#eeeeef" d="M 24.5 15 l 10 10 l -10 10 l -10 -10 l 10 -10" />
+  <path class="fish-column-3 fin-bottom" fill="#e4e5e7" d="M 34.5 45 l -10 -10 l -10 10 c 0 0 10 10 20 0" />
+  <path class="fish-column-4 fin-tail" fill="#ffffff" d="M 4.5 15 l 10 10 l -10 10 c 0 0 -10 -10 0 -20" />
+</svg>
