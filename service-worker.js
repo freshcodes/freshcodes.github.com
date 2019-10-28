@@ -1,6 +1,6 @@
 'use strict';
 
-const version = 'v1'
+const version = 'v2'
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(version).then((cache) => {
