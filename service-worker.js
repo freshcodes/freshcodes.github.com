@@ -1,12 +1,12 @@
 'use strict';
 
-const version = 'v3'
+const version = 'v4'
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(version).then((cache) => {
     return cache.addAll([
       '/',
-      '/fresh-codes.svg',
+      '/assets/fresh-codes.svg',
       '/components/fc-fish/fc-fish.js',
       '/components/fc-fish/fc-fish.css',
       '/components/fc-fish-scene/fc-fish-scene.js',
