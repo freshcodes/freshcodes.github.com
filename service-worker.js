@@ -1,6 +1,6 @@
 'use strict';
 
-const version = 'v4'
+const version = 'v5'
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(version).then((cache) => {
@@ -12,7 +12,14 @@ self.addEventListener('install', (event) => {
       '/components/fc-fish-scene/fc-fish-scene.js',
       '/components/fc-fish-scene/fc-fish-scene.css',
       '/components/fc-fish-scene/fc-fish-scene-controller.js',
-      '/components/fc-fish-scene/fc-fish-scene-fish-controller.js'
+      '/components/fc-fish-scene/fc-fish-scene-fish-controller.js',
+      '/components/fc-draw/fc-draw-brush-color.js',
+      '/components/fc-draw/fc-draw-brush-size.js',
+      '/components/fc-draw/fc-draw-cursor.js',
+      '/components/fc-draw/fc-draw.js',
+      '/components/fc-draw/fc-draw.css',
+      '/components/fc-contact-form/fc-contact-form.js',
+      '/components/fc-contact-form/fc-contact-form.css'
     ])
   }))
 })

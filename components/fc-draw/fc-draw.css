@@ -1,0 +1,20 @@
+fc-draw .tools {
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+fc-draw .tools fc-draw-brush-size,
+fc-draw .tools fc-draw-brush-color {
+  margin: 0 auto;
+}
+
+fc-draw canvas {
+  border: 1px solid #000;
+}
+
+fc-draw-brush-size output {
+  display: inline-block;
+  width: 1.5rem;
+  vertical-align: top;
+}

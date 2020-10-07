@@ -1,0 +1,46 @@
+fc-contact-form {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+fc-contact-form fieldset {
+  width: 300px;
+  margin: 0 auto;
+  padding: 0 0 1rem 0;
+  border: 0;
+}
+
+fc-contact-form fieldset.message {
+  flex-grow: 1;
+}
+
+@media only screen and (min-width: 666px) {
+  fc-contact-form fieldset.message {
+    padding-left: 2rem;
+  }
+}
+
+fc-contact-form fieldset.message {
+  text-align: center;
+}
+fc-contact-form fieldset.message label {
+  display: block;
+  font-size: 1rem;
+  text-align: left;
+}
+fc-contact-form fieldset.message textarea {
+  width: 100%;
+  height: 225px;
+  padding: 1rem;
+}
+fc-contact-form fieldset.message button {
+  font-size: 1.2rem;
+  background-color: #076c66;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: 1px solid #fff;
+}
