@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- checkout the full source on github: https://github.com/freshcodes/freshcodes.github.com -->
     <title>Fresh Codes | A fresh perspective on software development.</title>
     <meta name="author" content="Fresh Codes LLC">
     <meta name="description" content="What we can build for you?">
@@ -21,6 +22,11 @@
     <link rel="modulepreload" href="/components/fc-fish-scene/fc-fish-scene-controller.js">
     <link rel="modulepreload" href="/components/fc-fish-scene/fc-fish-scene.js">
     <link rel="modulepreload" href="/components/fc-fish/fc-fish.js">
+    <link rel="modulepreload" href="/components/fc-draw/fc-draw-brush-color.js">
+    <link rel="modulepreload" href="/components/fc-draw/fc-draw-brush-size.js">
+    <link rel="modulepreload" href="/components/fc-draw/fc-draw-cursor.js">
+    <link rel="modulepreload" href="/components/fc-draw/fc-draw.js">
+    <link rel="modulepreload" href="/components/fc-contact-form/fc-contact-form.js">
 
     <!-- https://github.com/WebReflection/document-register-element -->
     <script>this.customElements||document.write('<script src="//unpkg.com/document-register-element"><\x2fscript>');</script>
@@ -54,6 +60,10 @@
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         font-size: 18px;
         line-height: 1.5em;
+      }
+
+      input, button, textarea {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       }
 
       header {
@@ -102,6 +112,9 @@
         max-width: 1000px;
         margin: 0 auto;
       }
+      section#contact {
+        padding-top: 0;
+      }
 
       a:link { color: #226b9e; }
       a:visited { color: #226b9e; }
@@ -115,10 +128,14 @@
     <style>
       @import '/components/fc-fish/fc-fish.css';
       @import '/components/fc-fish-scene/fc-fish-scene.css';
+      @import '/components/fc-draw/fc-draw.css';
+      @import '/components/fc-contact-form/fc-contact-form.css';
     </style>
     <script type="module">
       import { FCFish } from '/components/fc-fish/fc-fish.js'
       import { FCFishScene } from '/components/fc-fish-scene/fc-fish-scene.js'
+      import { FCDraw } from '/components/fc-draw/fc-draw.js'
+      import { FCContactForm } from '/components/fc-contact-form/fc-contact-form.js'
     </script>
   </head>
   <body>
@@ -130,7 +147,10 @@
       <section>
         <p>We are a small software development team providing years of industry knowledge and experience to assist in bringing your ideas to life with focus on performance, accessibility, and maintainability.</p>
         <p>Our clients tend to be agencies and startups.  Together we have built amazing and unique experiences for various brands, large and small.</p>
-        <p>What we can build for you?  Get in touch with us: <a href="mailto:hello@fresh.codes">hello@fresh.codes</a>.</p>
+        <p>What we can build for you?  Entertain us with a silly sketch and a note containing your contact info (or just email us <a href="mailto:hello@fresh.codes">hello@fresh.codes</a>).</p>
+      </section>
+      <section id="contact">
+        <fc-contact-form></fc-contact-form>
       </section>
     </main>
     <script>

@@ -7,10 +7,10 @@ export class FCFishSceneController {
     this.boundingClientRect = this.scene.getBoundingClientRect()
     this.fishControllers = []
 
-    this.scene.addEventListener('click',      _ => { this.scareFish() }, false)
-    this.scene.addEventListener('touchstart', _ => { this.scareFish() }, supportsPassive && { passive: true })
-    window.addEventListener('resize',         _ => { this.handleWindowResize() }, supportsPassive && { passive: true })
-    document.addEventListener("visibilitychange", _ => { this.handleVisibilityChange() }, false)
+    this.scene.addEventListener('click',          _ => { this.scareFish()              }, false)
+    this.scene.addEventListener('touchstart',     _ => { this.scareFish()              }, supportsPassive && { passive: true })
+    window.addEventListener('resize',             _ => { this.handleWindowResize()     }, supportsPassive && { passive: true })
+    document.addEventListener('visibilitychange', _ => { this.handleVisibilityChange() }, false)
 
     this.intersectionObserver = new IntersectionObserver(this.handleIntersectionObserver.bind(this), { threshold: 0.25 })
     this.intersectionObserver.observe(this.scene)
